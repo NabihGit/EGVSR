@@ -1,0 +1,59 @@
+# basic configs
+scale: 4
+manual_seed: 0
+verbose: false
+
+
+# dataset configs
+dataset:
+  degradation:
+    type: BD
+    sigma: 1.5
+
+  test1:
+    name: Vid4
+    gt_seq_dir: video/video_temp/lr_input
+    lr_seq_dir: video/video_temp/lr_input
+    filter_file: ~
+    num_workers: 4
+    pin_memory: true
+
+# model configs
+model:
+  name: FRVSR
+
+  generator:
+    name: EGVSR  # efficient GAN-based generator
+    in_nc: 3
+    out_nc: 3
+    nf: 64
+    nb: 10
+    load_path: pretrained_models/EGVSR_iter420000.pth
+
+
+# test configs
+test:
+  # whether to save the SR results
+  save_res: true
+  res_dir: video/video_temp/sr_output
+
+  # temporal padding
+  padding_mode: reflect
+  num_pad_front: 5
+
+# metric configs
+metric:
+  PSNR:
+    colorspace: y
+    mult: 1.0
+
+  LPIPS:
+    model: net-lin
+    net: alex
+    colorspace: rgb
+    spatial: false
+    version: 0.1
+    mult: 1.0
+
+  tOF:
+    mult: 1.0
